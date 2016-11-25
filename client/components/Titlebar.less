@@ -1,0 +1,69 @@
+@titlebar-height: 40px;
+
+.titlebar {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1;
+	display: block;
+	width: 100%;
+	height: @titlebar-height;
+	background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.37), rgba(0, 0, 0, 0));
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	opacity: 0;
+	transition: opacity .4s ease;
+
+	&-title {
+		position: absolute;
+		left: 50%;
+		transform: translate3d(-50%,0,0);
+		width: 200px;
+		height: @titlebar-height;
+		line-height: @titlebar-height;
+		color: #FFF;
+		text-align: center;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&-drag {
+		flex: 1;
+		height: @titlebar-height;
+	}
+
+	&-ops {
+		color: #FFF;
+		display: flex;
+
+		&-item {
+			padding: 11px 0;
+			width: 40px;
+			text-align: center;
+			cursor: default;
+		}
+
+		&-minimize {
+			&:hover {
+				background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0.65), rgba(0, 0, 0, 0));
+			}
+		}
+
+		&-close {
+			&:hover {
+				background-image: linear-gradient(to bottom, rgba(247, 73, 73, 0.6), rgba(0, 0, 0, 0));
+			}
+		}
+	}
+}
+
+.app:hover .titlebar {
+	opacity: 1;
+}
+
+.app:blur .titlebar {
+	opacity: 1;
+}

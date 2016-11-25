@@ -3,6 +3,7 @@ const { app, BrowserWindow } = require( 'electron' );
 const path = require( 'path' );
 const createTray = require( './tray' );
 const createMainWindow = require( './main-window' );
+const ipc = require( './ipc' );
 
 require( 'electron-debug' )();
 

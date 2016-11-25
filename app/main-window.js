@@ -2,18 +2,22 @@ const { app, BrowserWindow } = require( 'electron' );
 const windowStateKeeper = require( 'electron-window-state' );
 const path = require( 'path' );
 
+let win;
 module.exports = function() {
+	if ( win ) {
+		return win;
+	}
+
 	const windowState = windowStateKeeper( {
-		defaultWidth: 600,
-		defaultHeight: 400,
+		defaultWidth: 400,
+		defaultHeight: 260,
 	} );
 
-	let win = new BrowserWindow( {
+	win = new BrowserWindow( {
 		icon: path.resolve( __dirname, './resources/tray.png' ),
-		width: 600,
-		height: 400,
-		// frame: false,
-		// skipTaskbar: true,
+		width: 400,
+		height: 260,
+		frame: false,
 		resizable: false,
 		center: true,
 		titleBarStyle: 'hidden',

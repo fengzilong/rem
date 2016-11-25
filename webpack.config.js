@@ -51,9 +51,11 @@ const baseConfig = {
 };
 
 module.exports = Object.assign( {}, baseConfig, {
+	devtool: 'cheap-source-map',
 	entry: {
 		app: _.cwd( 'client/index.js' ),
 	},
+	target: 'electron',
 	plugins: [
 		new HtmlWebpackPlugin( {
 			filename: 'index.html',
@@ -61,5 +63,5 @@ module.exports = Object.assign( {}, baseConfig, {
 			template: 'client/index.html',
 		} ),
 		new ExtractTextPlugin('[name]-[contenthash:8].css')
-	]
+	],
 } );
