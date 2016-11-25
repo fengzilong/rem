@@ -1,7 +1,6 @@
 import { ipcRenderer, clipboard } from 'electron';
 import walk from '../utils/walkPSDLayers';
 import unique from '../utils/unique';
-import toBlobUrl from '../utils/toBlobUrl';
 import Color from 'color';
 import './Preview.less';
 
