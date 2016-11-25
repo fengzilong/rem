@@ -11,7 +11,7 @@
     "url": "github.com/fengzilong"
   },
   "scripts": {
-    "dev": "concurrently \"npm run start -s\" \"npm run webpack -s\"",
+    "dev": "concurrently --kill-others \"npm run start -s\" \"npm run webpack -s\"",
     "start": "electron ./app",
     "webpack": "webpack -w",
     "build": "electron-packager . --out=dist --asar --overwrite --all"
