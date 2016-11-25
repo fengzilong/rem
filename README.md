@@ -1,6 +1,6 @@
 # rem
 
-> My super-duper app
+> rem
 
 
 ## Dev
@@ -12,7 +12,7 @@ $ npm install
 ### Run
 
 ```
-$ npm start
+$ npm run dev
 ```
 
 ### Build
@@ -26,4 +26,4 @@ Builds the app for macOS, Linux, and Windows, using [electron-packager](https://
 
 ## License
 
-MIT © [mo](https://github.com/fengzilong)
+MIT © [fengzilong](https://github.com/fengzilong)
