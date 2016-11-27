@@ -33,12 +33,13 @@ export default {
 		ipcRenderer.send( 'hide' );
 	},
 	onClose() {
-		ipcRenderer.send( 'resize', {
-			width: 400,
-			height: 260,
-		} );
-		ipcRenderer.send( 'center' );
-		ipcRenderer.send( 'focus' );
-		this.$router.nav( 'drop' );
+		ipcRenderer.send( 'hide' );
+		setTimeout( () => {
+			ipcRenderer.send( 'resize', {
+				width: 400,
+				height: 260,
+			} );
+			this.$router.nav( 'drop' );
+		}, 500 );
 	},
 };

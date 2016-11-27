@@ -15,7 +15,7 @@
     "dev": "concurrently --kill-others \"npm run start -s\" \"npm run webpack -s\"",
     "start": "electron ./app",
     "webpack": "webpack -w",
-    "build:windows": "electron-packager . --out=release --prune --asar --overwrite --platform=win32 --arch=x64 --icon=app/resources/icon.ico"
+    "build:windows": "electron-packager . --out=release --prune --asar --overwrite --platform=win32 --arch=x64"
   },
   "files": [
     "index.js",

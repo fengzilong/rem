@@ -3,7 +3,7 @@ const mainWindow = require( './main-window' );
 const config = require( './config' );
 
 module.exports = function createTrayMenu( options ) {
-	const recentFiles = config.get( 'recent-files' );
+	const recentFiles = config.get( 'recent-files' ) || [];
 
 	const trayMenu = Menu.buildFromTemplate( [
 		{
