@@ -5,6 +5,9 @@ import unique from '../utils/unique';
 import Color from 'color';
 import './Preview.less';
 
+const HINT_THRESHOLD_X = 150;
+const HINT_THRESHOLD_Y = 50;
+
 export default {
 	components: {
 		Notification,
@@ -28,7 +31,7 @@ export default {
 				{/list}
 
 				{#if isAboveTextLayer}
-				<div class="preview-hint" r-style="{ { top: hintTop + 'px', left: hintLeft + 'px' } }">
+				<div class="preview-hint" r-style="{ { top: hintTop, left: hintLeft, right: hintRight, bottom: hintBottom } }">
 					{#inc hintContent}
 				</div>
 				{/if}
@@ -107,8 +110,13 @@ export default {
 				} );
 
 				if ( filtered.length > 0 ) {
-					self.data.hintLeft = pageX + 10;
-					self.data.hintTop = pageY + 10;
+					const { top, right, bottom, left } = getSuitablePosition( {
+						pageX, pageY
+					} );
+					self.data.hintTop = top;
+					self.data.hintRight = right;
+					self.data.hintBottom = bottom;
+					self.data.hintLeft = left;
 					self.data.hintContent = genHintContent( filtered );
 					self.data.isAboveTextLayer = true;
 					self.copyContent = getCopyContent( filtered );
@@ -240,4 +248,41 @@ function getCopyContent( filtered ) {
 
 		return `${ sizes.map( v => 'font-size: ' + v + 'px;' ).join( '\n' ) }\n${ colors.map( v => 'color: ' + v + ';' ).join( '\n' ) }`;
 	} ).join( '\n\n' );
+}
+
+function getSuitablePosition( { pageX, pageY } ) {
+	const scrollY = window.scrollY;
+	const width = window.innerWidth;
+	const height = window.innerHeight;
+
+	const position = {
+		top: pageY + 15 + 'px',
+		right: 'initial',
+		bottom: 'initial',
+		left: pageX + 15 + 'px',
+	};
+
+	let matched = false;
+
+	if ( pageX < HINT_THRESHOLD_X ) {
+		// 太靠左
+		position.left = pageX + 15 + 'px';
+		position.right = 'initial';
+	} else if ( width - pageX < HINT_THRESHOLD_X ) {
+		// 太靠右
+		position.right = width - pageX - 15 +  'px';
+		position.left = 'initial';
+	}
+
+	if ( pageY - scrollY < HINT_THRESHOLD_Y ) {
+		// 太靠上
+		position.top = pageY + 15 + 'px';
+		position.bottom = 'initial';
+	} else if ( height - ( pageY - scrollY ) < HINT_THRESHOLD_Y ) {
+		// 太靠下
+		position.bottom = height - ( pageY - scrollY ) + 'px';
+		position.top = 'initial';
+	}
+
+	return position;
 }
