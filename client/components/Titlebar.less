@@ -15,6 +15,7 @@
 	justify-content: center;
 	opacity: 0;
 	transition: opacity .4s ease;
+	cursor: default;
 
 	&-title {
 		position: absolute;
@@ -32,7 +33,9 @@
 
 	&-drag {
 		flex: 1;
-		height: @titlebar-height;
+		align-self: flex-start;
+		height: @titlebar-height / 2;
+		-webkit-app-region: drag;
 	}
 
 	&-ops {
@@ -44,6 +47,14 @@
 			width: 40px;
 			text-align: center;
 			cursor: default;
+		}
+
+		&-move {
+			-webkit-app-region: drag;
+
+			&:hover {
+				cursor: grab;
+			}
 		}
 
 		&-minimize {

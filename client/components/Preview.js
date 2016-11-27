@@ -1,11 +1,13 @@
 import { ipcRenderer, clipboard } from 'electron';
+import Notification from './Notification';
 import walk from '../utils/walkPSDLayers';
 import unique from '../utils/unique';
 import Color from 'color';
 import './Preview.less';
 
 export default {
-	computed: {
+	components: {
+		Notification,
 	},
 	template: `
 		<div class="preview">
@@ -33,9 +35,13 @@ export default {
 			</div>
 			{/if}
 		</div>
+		{#if notifyText}
+		<Notification text="{ notifyText }"></Notification>
+		{/if}
 	`,
 	config() {
 		this.data.parsing = true;
+		this.data.notifyText = '我是提示文字';
 	},
 	init() {
 		const self = this;
@@ -62,8 +68,9 @@ export default {
 			self.data.parsing = false;
 			self.data.png = png;
 			self.data.layers = TEXT_LAYERS;
-
 			self.$update();
+
+			ipcRenderer.send( 'focus' );
 
 			// remove listeners
 			listeners.mousemove.forEach( listener => {
@@ -182,7 +189,7 @@ function genHintContent( filtered ) {
 			<div class="preview-hint-item">
 				<div class="preview-hint-item-label">color</div>
 				<div>
-					<strong>${ colors.map( v => `<span style="color: ${ v };">${ v }</span>` ).join( '、' ) }</strong>
+					<strong>${ colors.join( '、' ) }</strong>
 				</div>
 			</div>
 		`;

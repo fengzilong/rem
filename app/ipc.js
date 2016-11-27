@@ -27,6 +27,18 @@ ipcMain.on( 'fullscreen', function( e, message ) {
 	mainWindow().setFullScreen( true );
 } );
 
+ipcMain.on( 'minimize', function( e, message ) {
+	mainWindow().minimize();
+} );
+
+ipcMain.on( 'close', function( e, message ) {
+	mainWindow().close( true );
+} );
+
+ipcMain.on( 'focus', function( e, message ) {
+	mainWindow().focus( true );
+} );
+
 ipcMain.on( 'resizeWidth', function( e, width ) {
 	const mainWin = mainWindow();
 	const height = 600;
