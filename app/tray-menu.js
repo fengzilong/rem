@@ -20,13 +20,10 @@ module.exports = function createTrayMenu( options ) {
 		{
 			label: 'recent files',
 			type: 'submenu',
-			submenu: recentFiles.map( v => {
-				return { label: v.name, type: 'normal', click() {
+			submenu: recentFiles.map( ( { name, path } ) => {
+				return { label: name, type: 'normal', click() {
 					const win = mainWindow();
-					win.webContents.send( 'go-preview', {
-						name: v.name,
-						path: v.path,
-					} );
+					win.webContents.send( 'go-preview', { name, path } );
 					win.center();
 					win.focus();
 				} };
