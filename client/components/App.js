@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import Titlebar from './Titlebar';
 
 export default {
@@ -21,6 +22,12 @@ export default {
 				this.data.showTitle = false;
 			}
 			this.$update();
+		} );
+		ipcRenderer.on( 'go-drop', () => {
+			this.$router.nav( 'drop' );
+		} );
+		ipcRenderer.on( 'go-preview', ( e, { name, path } ) => {
+			this.$router.nav( `preview?name=${ name }&path=${ path }` )
 		} );
 	}
 };

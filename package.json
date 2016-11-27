@@ -10,11 +10,12 @@
     "email": "feng_zilong@163.com",
     "url": "github.com/fengzilong"
   },
+  "main": "app/index.js",
   "scripts": {
     "dev": "concurrently --kill-others \"npm run start -s\" \"npm run webpack -s\"",
     "start": "electron ./app",
     "webpack": "webpack -w",
-    "build": "electron-packager . --out=release --asar --overwrite --all"
+    "build:windows": "electron-packager . --out=release --prune --asar --overwrite --platform=win32 --arch=x64 --icon=app/resources/icon.ico"
   },
   "files": [
     "index.js",
@@ -26,6 +27,7 @@
     "electron"
   ],
   "dependencies": {
+    "electron-config": "^0.2.1",
     "electron-debug": "^1.0.0",
     "electron-window-state": "^4.0.0",
     "psd": "^3.1.0"

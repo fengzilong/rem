@@ -1,3 +1,4 @@
+import { ipcRenderer } from 'electron';
 import './DropZone.less';
 
 export default {
@@ -36,7 +37,11 @@ export default {
 				return;
 			}
 
-			self.$router.nav( `preview?name=${ file.name }&path=${ file.path }` );
+			const { name, path } = file;
+
+			ipcRenderer.send( 'save-as-recent-file', { name, path } );
+
+			self.$router.nav( `preview?name=${ name }&path=${ path }` );
 		}
 
 	}
