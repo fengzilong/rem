@@ -14,8 +14,7 @@
     "dev": "concurrently --kill-others \"npm run start -s\" \"npm run webpack -s\"",
     "start": "electron ./app",
     "webpack": "webpack -w",
-    "build": "electron-packager . --out=dist --asar --overwrite --all",
-    "rebuild": "electron-rebuild"
+    "build": "electron-packager . --out=release --asar --overwrite --all"
   },
   "files": [
     "index.js",
