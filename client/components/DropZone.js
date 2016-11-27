@@ -6,6 +6,7 @@ export default {
 	},
 	template: `
 		<div class="dropzone" ref="v">
+			<div class="dropzone-drag"></div>
 			<div>Please Drop Your PSD here!</div>
 		</div>
 	`,

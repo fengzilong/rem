@@ -30,9 +30,15 @@ export default {
 		this.data.closeIcon = closeIcon;
 	},
 	onMinimize() {
-		ipcRenderer.send( 'minimize' );
+		ipcRenderer.send( 'hide' );
 	},
 	onClose() {
-		ipcRenderer.send( 'close' );
+		ipcRenderer.send( 'resize', {
+			width: 400,
+			height: 260,
+		} );
+		ipcRenderer.send( 'center' );
+		ipcRenderer.send( 'focus' );
+		this.$router.nav( 'drop' );
 	},
 };

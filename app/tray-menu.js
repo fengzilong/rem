@@ -7,17 +7,6 @@ module.exports = function createTrayMenu( options ) {
 
 	const trayMenu = Menu.buildFromTemplate( [
 		{
-			label: 'reset',
-			type: 'normal',
-			click() {
-				const win = mainWindow();
-				win.webContents.send( 'go-drop' );
-				win.setContentSize( 400, 260, true );
-				win.center();
-				win.focus();
-			}
-		},
-		{
 			label: 'recent files',
 			type: 'submenu',
 			submenu: recentFiles.map( ( { name, path } ) => {

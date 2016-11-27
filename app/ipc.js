@@ -33,12 +33,21 @@ ipcMain.on( 'minimize', function( e, message ) {
 	mainWindow().minimize();
 } );
 
+ipcMain.on( 'hide', function( e, message ) {
+	mainWindow().hide();
+} );
+
 ipcMain.on( 'close', function( e, message ) {
-	mainWindow().close();
+	const win = mainWindow();
+	win.close();
 } );
 
 ipcMain.on( 'focus', function( e, message ) {
-	mainWindow().focus( true );
+	mainWindow().focus();
+} );
+
+ipcMain.on( 'center', function( e, message ) {
+	mainWindow().center();
 } );
 
 ipcMain.on( 'resize', function( e, { width, height } ) {

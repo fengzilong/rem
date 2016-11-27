@@ -18,6 +18,11 @@ module.exports = function( options ) {
 
 	tray.on( 'click', () => {
 		const win = mainWindow();
+		if ( win.isMinimized() ) {
+			win.restore();
+			return;
+		}
+
 		if ( !win.isVisible() ) {
 			win.show();
 			win.focus();
