@@ -4,7 +4,7 @@ export default {
 	template: `
 		<div
 			class="notification"
-			r-animation=""
+			r-animation="on:enter;class: notification-in,3;"
 		>
 			{ text }
 		</div>

@@ -18,10 +18,11 @@ module.exports = function( options ) {
 
 	tray.on( 'click', () => {
 		const win = mainWindow();
-		if ( win.isVisible() ) {
-			win.hide();
-		} else {
+		if ( !win.isVisible() ) {
 			win.show();
+			win.focus();
+		} else {
+			win.hide();
 		}
 	} );
 

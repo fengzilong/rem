@@ -2,3 +2,4 @@ node_modules
 /dist
 /release
 /fixture.psd
+/npm-debug.log

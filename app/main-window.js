@@ -22,7 +22,7 @@ module.exports = function() {
 		resizable: false,
 		center: true,
 		titleBarStyle: 'hidden',
-		backgroundColor: '#FFF',
+		// backgroundColor: '#FFF',
 		skipTaskbar: true,
 	} );
 

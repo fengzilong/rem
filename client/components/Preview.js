@@ -35,13 +35,14 @@ export default {
 			</div>
 			{/if}
 		</div>
-		{#if notifyText}
+		{#if showNotification}
 		<Notification text="{ notifyText }"></Notification>
 		{/if}
 	`,
 	config() {
 		this.data.parsing = true;
-		this.data.notifyText = '我是提示文字';
+		this.data.showNotification = false;
+		this.data.notifyText = '';
 	},
 	init() {
 		const self = this;
@@ -86,9 +87,9 @@ export default {
 
 			// add listener
 			document.addEventListener( 'mousemove', onMouseMove, false );
-			document.addEventListener( 'click', onClick, false );
+			document.addEventListener( 'click', onCopy, false );
 			listeners.mousemove.push( onMouseMove );
-			listeners.click.push( onClick );
+			listeners.click.push( onCopy );
 
 			function onMouseMove( e ) {
 				const { pageX, pageY } = e;
@@ -120,9 +121,32 @@ export default {
 				}
 			}
 
-			function onClick( e ) {
-				console.log( self.copyContent );
+			let timer;
+			function onCopy( e ) {
+				if ( !self.copyContent ) {
+					return;
+				}
+
 				clipboard.writeText( self.copyContent );
+
+				if ( self.data.showNotification ) {
+					clearTimeout( timer );
+					self.data.showNotification = false;
+					self.data.notifyText = '';
+					self.$update();
+
+					return setTimeout( onCopy, 100 );
+				}
+
+				self.data.showNotification = true;
+				self.data.notifyText = '已复制';
+				self.$update();
+
+				timer = setTimeout( () => {
+					self.data.showNotification = false;
+					self.data.notifyText = '';
+					self.$update();
+				}, 1700 );
 			}
 		} );
 		ipcRenderer.send( 'parse-psd', {
