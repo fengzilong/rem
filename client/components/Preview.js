@@ -5,9 +5,6 @@ import unique from '../utils/unique';
 import Color from 'color';
 import './Preview.less';
 
-const HINT_THRESHOLD_X = 150;
-const HINT_THRESHOLD_Y = 50;
-
 export default {
 	components: {
 		Notification,
@@ -251,6 +248,9 @@ function getCopyContent( filtered ) {
 }
 
 function getSuitablePosition( { pageX, pageY } ) {
+	const HINT_THRESHOLD_X = 150;
+	const HINT_THRESHOLD_Y = 50;
+	
 	const scrollY = window.scrollY;
 	const width = window.innerWidth;
 	const height = window.innerHeight;
