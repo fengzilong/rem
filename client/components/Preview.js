@@ -24,6 +24,8 @@ export default {
 				<div
 					class="preview-text-layer"
 					style="top: { layer.top }px;left: { layer.left }px;width: { layer.width }px;height: { layer.height }px;"
+					on-mousemove="{ this.onMouseMove( $event, layers ) }"
+					on-mouseleave="{ this.onMouseLeave() }"
 				></div>
 				{/list}
 
@@ -54,7 +56,6 @@ export default {
 		this.$update();
 
 		const listeners = {
-			mousemove: [],
 			click: [],
 		};
 
@@ -76,55 +77,14 @@ export default {
 			self.$update();
 
 			// remove listeners
-			listeners.mousemove.forEach( listener => {
-				document.removeEventListener( 'mousemove', listener, false );
-			} );
 			listeners.click.forEach( listener => {
 				document.removeEventListener( 'click', listener, false );
 			} );
-			listeners.mousemove.length = 0;
 			listeners.click.length = 0;
 
 			// add listener
-			document.addEventListener( 'mousemove', onMouseMove, false );
 			document.addEventListener( 'click', onCopy, false );
-			listeners.mousemove.push( onMouseMove );
 			listeners.click.push( onCopy );
-
-			function onMouseMove( e ) {
-				const { pageX, pageY } = e;
-
-				const filtered = TEXT_LAYERS.filter( layer => {
-					return inRect( {
-						x: pageX,
-						y: pageY,
-					}, {
-						top: layer.top,
-						right: layer.right,
-						bottom: layer.bottom,
-						left: layer.left,
-					} )
-				} );
-
-				if ( filtered.length > 0 ) {
-					const { top, right, bottom, left } = getSuitablePosition( {
-						pageX, pageY
-					} );
-					self.data.hintTop = top;
-					self.data.hintRight = right;
-					self.data.hintBottom = bottom;
-					self.data.hintLeft = left;
-					self.data.hintContent = genHintContent( filtered );
-					self.data.isAboveTextLayer = true;
-					self.copyContent = getCopyContent( filtered );
-					self.$update();
-				} else {
-					self.copyContent = '';
-					self.$update( {
-						isAboveTextLayer: false,
-					} );
-				}
-			}
 
 			let timer;
 			function onCopy( e ) {
@@ -161,15 +121,49 @@ export default {
 
 		this.$on( '$destroy', () => {
 			// remove listeners
-			listeners.mousemove.forEach( listener => {
-				document.removeEventListener( 'mousemove', listener, false );
-			} );
 			listeners.click.forEach( listener => {
 				document.removeEventListener( 'click', listener, false );
 			} );
-			listeners.mousemove.length = 0;
 			listeners.click.length = 0;
 		} );
+	},
+	onMouseMove( e, layers ) {
+		const { pageX, pageY } = e;
+
+		const filtered = layers.filter( layer => {
+			return inRect( {
+				x: pageX,
+				y: pageY,
+			}, {
+				top: layer.top,
+				right: layer.right,
+				bottom: layer.bottom,
+				left: layer.left,
+			} )
+		} );
+
+		if ( filtered.length > 0 ) {
+			const { top, right, bottom, left } = getSuitablePosition( {
+				pageX, pageY
+			} );
+			this.data.hintTop = top;
+			this.data.hintRight = right;
+			this.data.hintBottom = bottom;
+			this.data.hintLeft = left;
+			this.data.hintContent = genHintContent( filtered );
+			this.data.isAboveTextLayer = true;
+			this.copyContent = getCopyContent( filtered );
+			this.$update();
+		} else {
+			this.copyContent = '';
+			this.$update( {
+				isAboveTextLayer: false,
+			} );
+		}
+	},
+	onMouseLeave() {
+		this.data.isAboveTextLayer = false;
+		this.$update();
 	},
 };
 
@@ -250,7 +244,7 @@ function getCopyContent( filtered ) {
 function getSuitablePosition( { pageX, pageY } ) {
 	const HINT_THRESHOLD_X = 150;
 	const HINT_THRESHOLD_Y = 50;
-	
+
 	const scrollY = window.scrollY;
 	const width = window.innerWidth;
 	const height = window.innerHeight;
