@@ -13,8 +13,11 @@ module.exports = function createTrayMenu( options ) {
 				return { label: name, type: 'normal', click() {
 					const win = mainWindow();
 					win.webContents.send( 'go-preview', { name, path } );
-					win.center();
-					win.focus();
+					setTimeout( () => {
+						win.show();
+						win.center();
+						win.focus();
+					}, 100 );
 				} };
 			} ),
 		},
