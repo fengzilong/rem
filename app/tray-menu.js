@@ -5,7 +5,22 @@ const config = require( './config' );
 module.exports = function createTrayMenu( options ) {
 	const recentFiles = config.get( 'recent-files' ) || [];
 
-	const menus = recentFiles.map( ( { name, path } ) => {
+	const menus = [
+		{
+			label: 'open',
+			type: 'normal',
+			click() {
+				const win = mainWindow();
+				win.setContentSize( 400, 260, true );
+				win.webContents.send( 'go-drop' );
+				win.show();
+				win.center();
+			},
+		},
+		{ type: 'separator' },
+	];
+
+	[].push.apply( menus, recentFiles.map( ( { name, path } ) => {
 		return { label: name, type: 'radio', click() {
 			const win = mainWindow();
 			win.webContents.send( 'go-preview', { name, path } );
@@ -15,9 +30,9 @@ module.exports = function createTrayMenu( options ) {
 				win.focus();
 			}, 100 );
 		} };
-	} );
+	} ) );
 
-	if ( menus.length > 0 ) {
+	if ( recentFiles.length > 0 ) {
 		menus.push( { type: 'separator' } );
 		menus.push( {
 			label: 'clear',
@@ -26,16 +41,7 @@ module.exports = function createTrayMenu( options ) {
 				config.delete( 'recent-files' )
 			},
 		} );
-	} else {
-		menus.unshift( { type: 'separator' } );
-		menus.unshift( {
-			label: 'open',
-			type: 'normal',
-			click() {
-				const win = mainWindow();
-				win.show();
-			},
-		} );
+		menus.push( { type: 'separator' } );
 	}
 
 	const trayMenu = Menu.buildFromTemplate( [
