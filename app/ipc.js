@@ -74,15 +74,15 @@ ipcMain.on( 'save-as-recent-file', function( e, { name, path } ) {
 		recentFiles.unshift( { name, path } );
 	}
 
-	recentFiles = recentFiles.slice( 0, 5 );
+	recentFiles = recentFiles.slice( 0, 10 );
 
 	config.set( 'recent-files', recentFiles );
 
-	tray().emit( 'rebuild' );
+	// tray().emit( 'rebuild' );
 } );
 
 ipcMain.on( 'rebuild-tray-contextmenu-recent-files', rebuildTrayContextMenu );
 
 function rebuildTrayContextMenu() {
-	tray().emit( 'rebuild' );
+	// tray().emit( 'rebuild' );
 }

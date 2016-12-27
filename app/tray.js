@@ -10,25 +10,13 @@ module.exports = function( options ) {
 
 	tray = new Tray( `${__dirname}/resources/icon.png` );
 	tray.setToolTip( 'Rem' );
-	tray.setContextMenu( trayMenu() );
 
-	tray.on( 'rebuild', function () {
-		tray.setContextMenu( trayMenu() );
-	} );
+	// tray.on( 'rebuild', function () {
+	// 	tray.setContextMenu( trayMenu() );
+	// } );
 
 	tray.on( 'click', () => {
-		const win = mainWindow();
-		if ( win.isMinimized() ) {
-			win.restore();
-			return;
-		}
-
-		if ( !win.isVisible() ) {
-			win.show();
-			win.focus();
-		} else {
-			win.hide();
-		}
+		tray.popUpContextMenu( trayMenu() );
 	} );
 
 	return tray;
