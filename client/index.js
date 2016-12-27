@@ -1,18 +1,11 @@
 import reo from 'reo';
-import App from './components/App';
-import DropZone from './components/DropZone';
-import Preview from './components/Preview';
+import routes from './routes';
+
 import './css/index.less';
 
 const app = reo();
 
-app.router( { routes: [
-	{ url: '/', component: App, children: [
-		{ url: '/drop', component: DropZone },
-		{ url: '/preview', component: Preview },
-	] },
-] } );
-
+app.router( routes );
 app.start( '#app' );
 
 if ( !location.hash ) {

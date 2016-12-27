@@ -64,6 +64,9 @@ export default {
 			const TEXT_LAYERS = getTextLayers( tree )
 				.filter( layer => layer.visible && layer.opacity !== 0 );
 
+			self.data.parsing = false;
+			self.$update();
+
 			// set contentWidth to real psd width
 			ipcRenderer.send( 'resize', {
 				width: tree.document.width,
@@ -71,7 +74,6 @@ export default {
 			} );
 			ipcRenderer.send( 'focus' );
 
-			self.data.parsing = false;
 			self.data.png = png;
 			self.data.layers = TEXT_LAYERS;
 			self.$update();
