@@ -1,5 +1,5 @@
 const os = require( 'os' );
 
-module.exports = function() {
+module.exports = function () {
 	return os.tmpdir();
 };

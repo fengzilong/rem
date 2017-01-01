@@ -1,9 +1,9 @@
-const { app, BrowserWindow } = require( 'electron' );
+const { BrowserWindow } = require( 'electron' );
 const windowStateKeeper = require( 'electron-window-state' );
 const path = require( 'path' );
 
 let win;
-module.exports = function() {
+module.exports = function () {
 	if ( win ) {
 		return win;
 	}
@@ -28,19 +28,19 @@ module.exports = function() {
 
 	windowState.manage( win );
 
-	win.loadURL( `file://${__dirname}/../dist/index.html` );
+	win.loadURL( `file://${ __dirname }/../dist/index.html` );
 	win.once( 'ready-to-show', function () {
 		win.show();
 	} );
 	win.on( 'closed', onClosed );
-	win.webContents.on('will-navigate', event => {
+	win.webContents.on( 'will-navigate', event => {
 		event.preventDefault();
 		return false;
-	});
+	} );
 
 	function onClosed() {
 		win = null;
 	}
 
 	return win;
-}
+};

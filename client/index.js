@@ -9,5 +9,5 @@ app.router( routes );
 app.start( '#app' );
 
 if ( !location.hash ) {
-	location.href = '#!/drop'
+	location.href = '#!/drop';
 }

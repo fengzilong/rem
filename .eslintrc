@@ -1,0 +1,7 @@
+{
+	"extends": "mo/esnext",
+	"env": {
+        "browser": true,
+        "node": true
+    }
+}

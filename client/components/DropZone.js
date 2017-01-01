@@ -16,13 +16,13 @@ export default {
 		const triggers = 'drag dragstart dragend dragover dragenter dragleave drop'.split( ' ' );
 
 		triggers.forEach( trigger => {
-			$dropzone.addEventListener( trigger, onPrevent, false )
+			$dropzone.addEventListener( trigger, onPrevent, false );
 		} );
 		$dropzone.addEventListener( 'drop', onDrop, false );
 
 		this.$on( '$destroy', () => {
 			triggers.forEach( trigger => {
-				$dropzone.removeEventListener( trigger, onPrevent, false )
+				$dropzone.removeEventListener( trigger, onPrevent, false );
 			} );
 			$dropzone.removeEventListener( 'drop', onDrop, false );
 		} );
@@ -44,6 +44,5 @@ export default {
 
 			self.$router.nav( `preview?name=${ name }&path=${ path }` );
 		}
-
 	}
 };

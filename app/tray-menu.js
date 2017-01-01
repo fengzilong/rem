@@ -2,7 +2,7 @@ const { Menu } = require( 'electron' );
 const mainWindow = require( './main-window' );
 const config = require( './config' );
 
-module.exports = function createTrayMenu( options ) {
+module.exports = function createTrayMenu() {
 	const recentFiles = config.get( 'recent-files' ) || [];
 
 	const menus = [
@@ -38,7 +38,7 @@ module.exports = function createTrayMenu( options ) {
 			label: 'clear',
 			type: 'normal',
 			click() {
-				config.delete( 'recent-files' )
+				config.delete( 'recent-files' );
 			},
 		} );
 		menus.push( { type: 'separator' } );
@@ -50,4 +50,4 @@ module.exports = function createTrayMenu( options ) {
 	] );
 
 	return trayMenu;
-}
+};

@@ -1,10 +1,8 @@
 'use strict';
-const { app, BrowserWindow } = require( 'electron' );
-const path = require( 'path' );
+const { app } = require( 'electron' );
 const createTray = require( './tray' );
 const createMainWindow = require( './main-window' );
-const ipc = require( './ipc' );
-
+require( './ipc' );
 require( 'electron-debug' )();
 
 let mainWindow;

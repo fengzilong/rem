@@ -2,7 +2,7 @@ import { ipcRenderer, clipboard } from 'electron';
 import Notification from './Notification';
 import walk from '../utils/walkPSDLayers';
 import unique from '../utils/unique';
-import Color from 'color';
+import color from 'color';
 import './Preview.less';
 
 export default {
@@ -12,11 +12,14 @@ export default {
 	template: `
 		<div class="preview">
 			{#if parsing}
+
 			<div class="preview-loading">
 				<div>Parsing <strong>[{ name }]</strong></div>
 				<div>wait a moment...(*´∇｀*)</div>
 			</div>
+
 			{#else}
+
 			<div class="preview-image-wrapper">
 				<img src="{ png || 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' }" alt="" />
 
@@ -30,11 +33,15 @@ export default {
 				{/list}
 
 				{#if isAboveTextLayer}
-				<div class="preview-hint" r-style="{ { top: hintTop, left: hintLeft, right: hintRight, bottom: hintBottom } }">
+				<div
+					class="preview-hint"
+					r-style="{ { top: hintTop, left: hintLeft, right: hintRight, bottom: hintBottom } }"
+				>
 					{#inc hintContent}
 				</div>
 				{/if}
 			</div>
+
 			{/if}
 		</div>
 		{#if showNotification}
@@ -59,10 +66,12 @@ export default {
 			click: [],
 		};
 
-		ipcRenderer.once( 'parse-psd-done-' + path, function( e, parsed ) {
+		ipcRenderer.once( 'parse-psd-done-' + path, function ( e, parsed ) {
 			const { tree, png } = parsed;
 			const TEXT_LAYERS = getTextLayers( tree )
 				.filter( layer => layer.visible && layer.opacity !== 0 );
+
+			console.log( 'TEXT_LAYERS', TEXT_LAYERS );
 
 			self.data.parsing = false;
 			self.$update();
@@ -89,7 +98,7 @@ export default {
 			listeners.click.push( onCopy );
 
 			let timer;
-			function onCopy( e ) {
+			function onCopy() {
 				if ( !self.copyContent ) {
 					return;
 				}
@@ -116,6 +125,7 @@ export default {
 				}, 1700 );
 			}
 		} );
+
 		ipcRenderer.send( 'parse-psd', {
 			filename: name,
 			filepath: path,
@@ -141,7 +151,7 @@ export default {
 				right: layer.right,
 				bottom: layer.bottom,
 				left: layer.left,
-			} )
+			} );
 		} );
 
 		if ( filtered.length > 0 ) {
@@ -181,11 +191,11 @@ function getTextLayers( tree ) {
 
 function inRect( { x, y }, { top, right, bottom, left } ) {
 	return x >= left && x <= right &&
-		y > top && y < bottom
+		y > top && y < bottom;
 }
 
 function genHintContent( filtered ) {
-	const colorConverter = Color();
+	const colorConverter = color();
 
 	return filtered.map( v => {
 		const colors = unique(
@@ -193,9 +203,9 @@ function genHintContent( filtered ) {
 				const c = colorConverter.rgb( rgba );
 				if ( rgba[ 3 ] === 255 ) {
 					return c.hexString();
-				} else {
-					return c.rgbString();
 				}
+
+				return c.rgbString();
 			} )
 		);
 		const sizes = unique( v.text.font.sizes );
@@ -224,7 +234,7 @@ function genHintContent( filtered ) {
 }
 
 function getCopyContent( filtered ) {
-	const colorConverter = Color();
+	const colorConverter = color();
 
 	return filtered.map( v => {
 		const colors = unique(
@@ -232,9 +242,9 @@ function getCopyContent( filtered ) {
 				const c = colorConverter.rgb( rgba );
 				if ( rgba[ 3 ] === 255 ) {
 					return c.hexString();
-				} else {
-					return c.rgbString();
 				}
+
+				return c.rgbString();
 			} )
 		);
 		const sizes = unique( v.text.font.sizes );
@@ -258,15 +268,13 @@ function getSuitablePosition( { pageX, pageY } ) {
 		left: pageX + 15 + 'px',
 	};
 
-	let matched = false;
-
 	if ( pageX < HINT_THRESHOLD_X ) {
 		// 太靠左
 		position.left = pageX + 15 + 'px';
 		position.right = 'initial';
 	} else if ( width - pageX < HINT_THRESHOLD_X ) {
 		// 太靠右
-		position.right = width - pageX - 15 +  'px';
+		position.right = width - pageX - 15 + 'px';
 		position.left = 'initial';
 	}
 

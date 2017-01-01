@@ -1,16 +1,21 @@
 const { ipcMain } = require( 'electron' );
 const path = require( 'path' );
 const mainWindow = require( './main-window' );
-const tray = require( './tray' );
 const parsePsd = require( './parse-psd' );
 const getTmpDir = require( './get-tmpdir' );
 const config = require( './config' );
 
-ipcMain.on( 'parse-psd', function( e, message ) {
+ipcMain.on( 'parse-psd', function ( e, message ) {
+	console.log( 'parse-psd received' );
+
 	const sender = e.sender;
-	const { filepath, filename } = message;
+	const { filepath } = message;
+
+	console.log( 'in' );
 
 	parsePsd( filepath ).then( parsed => {
+		console.log( parsed );
+
 		// save
 		const tempPath = path.resolve(
 			getTmpDir(),
@@ -21,51 +26,56 @@ ipcMain.on( 'parse-psd', function( e, message ) {
 				tree: parsed.tree(),
 				png: tempPath,
 			} );
+		} )
+		.catch( e => {
+			console.log( 'parse psd failed', e );
 		} );
 	} );
 } );
 
-ipcMain.on( 'fullscreen', function( e, message ) {
+ipcMain.on( 'fullscreen', function () {
 	mainWindow().setFullScreen( true );
 } );
 
-ipcMain.on( 'minimize', function( e, message ) {
+ipcMain.on( 'minimize', function () {
 	mainWindow().minimize();
 } );
 
-ipcMain.on( 'hide', function( e, message ) {
+ipcMain.on( 'hide', function () {
 	mainWindow().hide();
 } );
 
-ipcMain.on( 'close', function( e, message ) {
+ipcMain.on( 'close', function () {
 	const win = mainWindow();
 	win.close();
 } );
 
-ipcMain.on( 'focus', function( e, message ) {
+ipcMain.on( 'focus', function () {
 	mainWindow().focus();
 } );
 
-ipcMain.on( 'center', function( e, message ) {
+ipcMain.on( 'center', function () {
 	mainWindow().center();
 } );
 
-ipcMain.on( 'resize', function( e, { width, height } ) {
+ipcMain.on( 'resize', function ( e, { width, height } ) {
 	const win = mainWindow();
 	win.setContentSize( width, height, true );
 	win.center();
 } );
 
-ipcMain.on( 'save-as-recent-file', function( e, { name, path } ) {
+ipcMain.on( 'save-as-recent-file', function ( e, { name, path } ) {
 	let recentFiles = config.get( 'recent-files' ) || [];
 
 	let found;
-	recentFiles.some( function( v, i ) {
+	recentFiles.some( function ( v, i ) {
 		if ( v.path === path ) {
 			found = v;
 			recentFiles.splice( i, 1 );
 			return true;
 		}
+
+		return false;
 	} );
 
 	if ( found ) {

@@ -27,7 +27,7 @@ export default {
 			this.$router.nav( 'drop' );
 		} );
 		ipcRenderer.on( 'go-preview', ( e, { name, path } ) => {
-			this.$router.nav( `preview?name=${ name }&path=${ path }` )
+			this.$router.nav( `preview?name=${ name }&path=${ path }` );
 		} );
 	}
 };

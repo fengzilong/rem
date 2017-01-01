@@ -1,6 +1,7 @@
 const PSD = require( 'psd' );
 
-module.exports = function( path ) {
+module.exports = function ( path ) {
+	console.log( path );
 	return PSD.open( path )
 		.then( psd => {
 			return {
@@ -10,6 +11,6 @@ module.exports = function( path ) {
 				tree() {
 					return psd.tree().export();
 				}
-			}
+			};
 		} );
-}
+};
