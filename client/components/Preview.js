@@ -71,8 +71,6 @@ export default {
 			const TEXT_LAYERS = getTextLayers( tree )
 				.filter( layer => layer.visible && layer.opacity !== 0 );
 
-			console.log( 'TEXT_LAYERS', TEXT_LAYERS );
-
 			self.data.parsing = false;
 			self.$update();
 

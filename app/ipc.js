@@ -6,16 +6,10 @@ const getTmpDir = require( './get-tmpdir' );
 const config = require( './config' );
 
 ipcMain.on( 'parse-psd', function ( e, message ) {
-	console.log( 'parse-psd received' );
-
 	const sender = e.sender;
 	const { filepath } = message;
 
-	console.log( 'in' );
-
 	parsePsd( filepath ).then( parsed => {
-		console.log( parsed );
-
 		// save
 		const tempPath = path.resolve(
 			getTmpDir(),

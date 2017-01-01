@@ -1,7 +1,6 @@
 const PSD = require( 'psd' );
 
 module.exports = function ( path ) {
-	console.log( path );
 	return PSD.open( path )
 		.then( psd => {
 			return {
